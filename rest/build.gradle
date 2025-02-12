@@ -11,6 +11,12 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 dependencies {
     implementation project(':calculator')
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -18,6 +24,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-test {
-    useJUnitPlatform()
+
+bootJar{
+    mainClass= 'com.wit.rest.CalculatorApiApplication'
 }

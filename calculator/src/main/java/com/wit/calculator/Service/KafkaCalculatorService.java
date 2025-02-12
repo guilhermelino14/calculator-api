@@ -22,6 +22,9 @@ public class KafkaCalculatorService {
 
     @KafkaListener(topics = "calculator-operations", groupId = "calculator_group")
     public void consume(String message) {
+        if (message.contains("resultado")) {
+            return;
+        }
         String[] parts = message.split(",");
         String operation = parts[0];
         BigDecimal a = new BigDecimal(parts[1]);
@@ -51,6 +54,7 @@ public class KafkaCalculatorService {
         if (result != null) {
             logger.info("Calculation Result: " + result);
             System.out.println("Calculation Result: " + result);
+            kafkaService.result(result);
         }
     }
 }

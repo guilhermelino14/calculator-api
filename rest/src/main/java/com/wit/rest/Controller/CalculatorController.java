@@ -10,12 +10,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/calculator")
 public class CalculatorController {
-
-    private final CalculatorService calculatorService;
     private final KafkaService kafkaService;
 
-    public CalculatorController(CalculatorService calculatorService, KafkaService kafkaService) {
-        this.calculatorService = calculatorService;
+    public CalculatorController(KafkaService kafkaService) {
         this.kafkaService = kafkaService;
     }
 

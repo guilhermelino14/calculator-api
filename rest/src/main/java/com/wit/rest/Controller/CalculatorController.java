@@ -1,6 +1,7 @@
 package com.wit.rest.Controller;
 
 import com.wit.calculator.Service.CalculatorService;
+import com.wit.calculator.Service.KafkaService;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -11,31 +12,37 @@ import java.util.Map;
 public class CalculatorController {
 
     private final CalculatorService calculatorService;
+    private final KafkaService kafkaService;
 
-    public CalculatorController(CalculatorService calculatorService) {
+    public CalculatorController(CalculatorService calculatorService, KafkaService kafkaService) {
         this.calculatorService = calculatorService;
+        this.kafkaService = kafkaService;
     }
 
     @GetMapping("/sum")
-    public Map<String, BigDecimal> sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
-        return Map.of("result", calculatorService.sum(a, b));
+    public String sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+        kafkaService.calculate("sum", a, b);
+        return "Calculation sent to Kafka";
     }
 
     @GetMapping("/subtract")
-    public Map<String, BigDecimal> subtract(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
-        return Map.of("result", calculatorService.subtract(a, b));
+    public String subtract(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+        kafkaService.calculate("subtract", a, b);
+        return "Calculation sent to Kafka";
     }
 
     @GetMapping("/multiply")
-    public Map<String, BigDecimal> multiply(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
-        return Map.of("result", calculatorService.multiply(a, b));
+    public String multiply(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+        kafkaService.calculate("multiply", a, b);
+        return "Calculation sent to Kafka";
     }
 
     @GetMapping("/divide")
-    public Map<String, BigDecimal> divide(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+    public String divide(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         if (b.compareTo(BigDecimal.ZERO) == 0) {
             throw new IllegalArgumentException("Cannot divide by zero.");
         }
-        return Map.of("result", calculatorService.divide(a, b));
+        kafkaService.calculate("divide", a, b);
+        return "Calculation sent to Kafka";
     }
 }

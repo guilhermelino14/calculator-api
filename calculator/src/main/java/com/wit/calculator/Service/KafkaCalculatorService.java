@@ -32,7 +32,6 @@ public class KafkaCalculatorService {
 
         BigDecimal result = null;
 
-        // Executa a operação correta
         switch (operation) {
             case "sum":
                 result = calculatorService.sum(a, b);
@@ -50,7 +49,6 @@ public class KafkaCalculatorService {
                 logger.error("Unknown operation: " + operation);
         }
 
-        // Log e exibe o resultado
         if (result != null) {
             logger.info("Calculation Result: " + result);
             System.out.println("Calculation Result: " + result);

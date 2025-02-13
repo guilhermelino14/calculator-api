@@ -50,5 +50,6 @@ gradle test
 
 ### Check the test coverage
 ```
-check the file rest/build/reports/tests/test/index.html
+check rest coverage in the file rest/build/reports/tests/test/index.html
+check calculator coverage the file calculator/build/reports/tests/test/index.html
 ```

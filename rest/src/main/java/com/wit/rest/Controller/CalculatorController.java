@@ -3,6 +3,7 @@ package com.wit.rest.Controller;
 import com.wit.calculator.Service.CalculatorService;
 import com.wit.calculator.Service.KafkaService;
 import org.apache.coyote.Response;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +20,21 @@ public class CalculatorController {
     }
 
     @GetMapping("/sum")
-    public String sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+    public ResponseEntity<String> sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("sum", a, b);
-        return "Calculation sent to Kafka";
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
     }
 
     @GetMapping("/subtract")
-    public String subtract(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+    public ResponseEntity<String> subtract(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("subtract", a, b);
-        return "Calculation sent to Kafka";
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
     }
 
     @GetMapping("/multiply")
-    public String multiply(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+    public ResponseEntity<String> multiply(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("multiply", a, b);
-        return "Calculation sent to Kafka";
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
     }
 
     @GetMapping("/divide")
@@ -42,6 +43,6 @@ public class CalculatorController {
             return ResponseEntity.badRequest().body("Cannot divide by zero.");
         }
         kafkaService.calculate("divide", a, b);
-        return ResponseEntity.ok("Calculation sent to Kafka");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
     }
 }

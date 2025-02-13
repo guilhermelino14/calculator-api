@@ -28,11 +28,11 @@ public class CalculatorController {
         CompletableFuture<BigDecimal> future = kafkaService.calculate("sum", a, b);
         try {
             BigDecimal result = future.get(10, TimeUnit.SECONDS);
-            return ResponseEntity.ok().body("{\"result\": " + result + "}");
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("{\"result\": " + result + "}");
         } catch (TimeoutException e) {
-            return ResponseEntity.status(504).body("{\"error\": \"Kafka response timeout\"}");
+            return ResponseEntity.status(504).contentType(MediaType.APPLICATION_JSON).body("{\"error\": \"Kafka response timeout\"}");
         } catch (InterruptedException | ExecutionException e) {
-            return ResponseEntity.status(500).body("{\"error\": \"Error processing request\"}");
+            return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON).body("{\"error\": \"Error processing request\"}");
         }
     }
 

@@ -1,33 +1,44 @@
 package com.wit.calculator.Service;
 
-import com.wit.calculator.Service.CalculatorService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Service
 public class KafkaService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CalculatorService.class);
-
     private final KafkaTemplate<String, String> kafkaTemplate;
+
+    private final ConcurrentMap<String, CompletableFuture<BigDecimal>> pendingRequests = new ConcurrentHashMap<>();
 
     public KafkaService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void calculate(String operation, BigDecimal a, BigDecimal b) {
-        String message = operation + "," + a + "," + b;
-        logger.info("Sending message: " + message);
+    public CompletableFuture<BigDecimal> calculate(String operation, BigDecimal a, BigDecimal b) {
+        String requestId = operation + "-" + a + "-" + b; // Unique key
+        CompletableFuture<BigDecimal> future = new CompletableFuture<>();
+
+        pendingRequests.put(requestId, future);
+
+        String message = requestId + "," + operation + "," + a + "," + b;
         kafkaTemplate.send("calculator-operations", message);
+
+        return future;
     }
 
-    public void result(BigDecimal result) {
-        String message ="resultado: " + result;
-        logger.info("Resultado: " + message);
-        kafkaTemplate.send("calculator-operations", message);
+    public void completeCalculation(String requestId, BigDecimal result) {
+        CompletableFuture<BigDecimal> future = pendingRequests.remove(requestId);
+        if (future != null) {
+            future.complete(result);
+        }
+    }
+
+    public KafkaTemplate<String, String> getKafkaTemplate() {
+        return kafkaTemplate;
     }
 }

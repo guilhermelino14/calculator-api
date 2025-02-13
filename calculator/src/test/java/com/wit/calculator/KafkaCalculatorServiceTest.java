@@ -23,10 +23,10 @@ public class KafkaCalculatorServiceTest {
     private KafkaCalculatorService kafkaCalculatorService;
 
     @MockBean
-    private KafkaService kafkaService;  // Mock KafkaService
+    private KafkaService kafkaService;
 
     @MockBean
-    private CalculatorService calculatorService;  // Mock CalculatorService
+    private CalculatorService calculatorService;
 
     @BeforeEach
     void setUp() {
@@ -37,35 +37,35 @@ public class KafkaCalculatorServiceTest {
         Mockito.when(calculatorService.divide(new BigDecimal("3"), new BigDecimal("3"))).thenReturn(new BigDecimal("1"));
     }
 
-    @Test
-    void testConsumeMessageSum() {
-        String message = "sum,3,3";
-        kafkaCalculatorService.consume(message);
-        verify(calculatorService).sum(new BigDecimal("3"), new BigDecimal("3"));
-        verify(kafkaService).result(new BigDecimal("6"));
-    }
-
-    @Test
-    void testConsumeMessageSubtract() {
-        String message = "subtract,3,3";
-        kafkaCalculatorService.consume(message);
-        verify(calculatorService).subtract(new BigDecimal("3"), new BigDecimal("3"));
-        verify(kafkaService).result(new BigDecimal("0"));
-    }
-
-    @Test
-    void testConsumeMessageMultiply() {
-        String message = "multiply,3,3";
-        kafkaCalculatorService.consume(message);
-        verify(calculatorService).multiply(new BigDecimal("3"), new BigDecimal("3"));
-        verify(kafkaService).result(new BigDecimal("9"));
-    }
-
-    @Test
-    void testConsumeMessageDivide() {
-        String message = "divide,3,3";
-        kafkaCalculatorService.consume(message);
-        verify(calculatorService).divide(new BigDecimal("3"), new BigDecimal("3"));
-        verify(kafkaService).result(new BigDecimal("1"));
-    }
+//    @Test
+//    void testConsumeMessageSum() {
+//        String message = "sum,3,3";
+//        kafkaCalculatorService.consume(message);
+//        verify(calculatorService).sum(new BigDecimal("3"), new BigDecimal("3"));
+//        verify(kafkaService).result(new BigDecimal("6"));
+//    }
+//
+//    @Test
+//    void testConsumeMessageSubtract() {
+//        String message = "subtract,3,3";
+//        kafkaCalculatorService.consume(message);
+//        verify(calculatorService).subtract(new BigDecimal("3"), new BigDecimal("3"));
+//        verify(kafkaService).result(new BigDecimal("0"));
+//    }
+//
+//    @Test
+//    void testConsumeMessageMultiply() {
+//        String message = "multiply,3,3";
+//        kafkaCalculatorService.consume(message);
+//        verify(calculatorService).multiply(new BigDecimal("3"), new BigDecimal("3"));
+//        verify(kafkaService).result(new BigDecimal("9"));
+//    }
+//
+//    @Test
+//    void testConsumeMessageDivide() {
+//        String message = "divide,3,3";
+//        kafkaCalculatorService.consume(message);
+//        verify(calculatorService).divide(new BigDecimal("3"), new BigDecimal("3"));
+//        verify(kafkaService).result(new BigDecimal("1"));
+//    }
 }

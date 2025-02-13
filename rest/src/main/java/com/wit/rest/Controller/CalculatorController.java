@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -20,9 +24,16 @@ public class CalculatorController {
     }
 
     @GetMapping("/sum")
-    public ResponseEntity<String> sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
-        kafkaService.calculate("sum", a, b);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
+    public ResponseEntity<?> sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+        CompletableFuture<BigDecimal> future = kafkaService.calculate("sum", a, b);
+        try {
+            BigDecimal result = future.get(10, TimeUnit.SECONDS);
+            return ResponseEntity.ok().body("{\"result\": " + result + "}");
+        } catch (TimeoutException e) {
+            return ResponseEntity.status(504).body("{\"error\": \"Kafka response timeout\"}");
+        } catch (InterruptedException | ExecutionException e) {
+            return ResponseEntity.status(500).body("{\"error\": \"Error processing request\"}");
+        }
     }
 
     @GetMapping("/subtract")

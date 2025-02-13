@@ -54,3 +54,8 @@ check rest coverage in the file rest/build/reports/tests/test/index.html
 check calculator coverage the file calculator/build/reports/tests/test/index.html
 check KafkaCalculatorServiceTest coverage the file calculator/build/reports/tests/test/classes/com.wit.calculator.KafkaCalculatorServiceTest.html
 ```
+
+## Check The Unique identifiers of the operations
+```
+curl -i  "http://localhost:8080/api/calculator/divide?a=10&b=5"
+```

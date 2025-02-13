@@ -43,6 +43,30 @@ class CalculatorApiApplicationTests {
 	}
 
 	@Test
+	void testSubtract() throws Exception {
+		mockMvc.perform(get("/api/calculator/subtract")
+						.param("a", "5")
+						.param("b", "3")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Calculation sent to Kafka"));
+
+		Mockito.verify(kafkaService).calculate("subtract", new BigDecimal("5"), new BigDecimal("3"));
+	}
+
+	@Test
+	void testMultiply() throws Exception {
+		mockMvc.perform(get("/api/calculator/multiply")
+						.param("a", "2")
+						.param("b", "3")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Calculation sent to Kafka"));
+
+		Mockito.verify(kafkaService).calculate("multiply", new BigDecimal("2"), new BigDecimal("3"));
+	}
+
+	@Test
 	void testDivideByZero() throws Exception {
 		mockMvc.perform(get("/api/calculator/divide")
 						.param("a", "10")

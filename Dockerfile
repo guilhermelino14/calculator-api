@@ -30,7 +30,7 @@ WORKDIR /app
 USER app-user
 
 # Copiar o JAR gerado
-COPY --from=build /app/build/libs/*.jar /app/app.jar
+COPY --from=build /app/rest/build/libs/rest-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expor a porta
 EXPOSE 8080

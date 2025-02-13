@@ -42,3 +42,8 @@ curl "http://localhost:8080/api/calculator/divide?a=10&b=5"
 ```
 
 
+## Test the calculator api
+```
+gradle test
+```
+

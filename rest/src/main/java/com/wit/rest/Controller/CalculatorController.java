@@ -21,19 +21,19 @@ public class CalculatorController {
     @GetMapping("/sum")
     public ResponseEntity<String> sum(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("sum", a, b);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Result: " + a.add(b));
     }
 
     @GetMapping("/subtract")
     public ResponseEntity<String> subtract(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("subtract", a, b);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Result: " + a.subtract(b));
     }
 
     @GetMapping("/multiply")
     public ResponseEntity<String> multiply(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
         kafkaService.calculate("multiply", a, b);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Result: " + a.multiply(b));
     }
 
     @GetMapping("/divide")
@@ -42,6 +42,6 @@ public class CalculatorController {
             return ResponseEntity.badRequest().body("Cannot divide by zero.");
         }
         kafkaService.calculate("divide", a, b);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Calculation sent to Kafka");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Result: " + a.divide(b));
     }
 }

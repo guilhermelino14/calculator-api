@@ -37,7 +37,7 @@ class CalculatorApiApplicationTests {
 						.param("b", "3")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Calculation sent to Kafka"));
+				.andExpect(content().string("Result: 5"));
 
 		Mockito.verify(kafkaService).calculate("sum", new BigDecimal("2"), new BigDecimal("3"));
 	}
@@ -49,7 +49,7 @@ class CalculatorApiApplicationTests {
 						.param("b", "3")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Calculation sent to Kafka"));
+				.andExpect(content().string("Result: 2"));
 
 		Mockito.verify(kafkaService).calculate("subtract", new BigDecimal("5"), new BigDecimal("3"));
 	}
@@ -61,9 +61,21 @@ class CalculatorApiApplicationTests {
 						.param("b", "3")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Calculation sent to Kafka"));
+				.andExpect(content().string("Result: 6"));
 
 		Mockito.verify(kafkaService).calculate("multiply", new BigDecimal("2"), new BigDecimal("3"));
+	}
+
+	@Test
+	void testDivide() throws Exception {
+		mockMvc.perform(get("/api/calculator/divide")
+						.param("a", "10")
+						.param("b", "2")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Result: 5"));
+
+		Mockito.verify(kafkaService).calculate("divide", new BigDecimal("10"), new BigDecimal("2"));
 	}
 
 	@Test

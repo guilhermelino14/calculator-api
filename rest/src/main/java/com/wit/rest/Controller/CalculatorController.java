@@ -1,8 +1,7 @@
 package com.wit.rest.Controller;
 
-import com.wit.calculator.Service.CalculatorService;
-import com.wit.calculator.Service.KafkaService;
-import org.apache.coyote.Response;
+
+import com.wit.rest.Service.KafkaServiceApi;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/calculator")
 public class CalculatorController {
-    private final KafkaService kafkaService;
+    private final KafkaServiceApi kafkaService;
 
-    public CalculatorController(KafkaService kafkaService) {
+    public CalculatorController(KafkaServiceApi kafkaService) {
         this.kafkaService = kafkaService;
     }
 

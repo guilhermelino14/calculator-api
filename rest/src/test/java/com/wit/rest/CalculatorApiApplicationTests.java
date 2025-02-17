@@ -1,7 +1,7 @@
 package com.wit.rest;
 
-import com.wit.calculator.Service.KafkaService;
 import com.wit.rest.Controller.CalculatorController;
+import com.wit.rest.Service.KafkaServiceApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,12 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CalculatorApiApplicationTests {
 
 	private MockMvc mockMvc;
-	private KafkaService kafkaService;
+	private KafkaServiceApi kafkaService;
 	private CalculatorController calculatorController;
 
 	@BeforeEach
 	void setUp() {
-		kafkaService = Mockito.mock(KafkaService.class);
+		kafkaService = Mockito.mock(KafkaServiceApi.class);
 		calculatorController = new CalculatorController(kafkaService);
 		mockMvc = MockMvcBuilders.standaloneSetup(calculatorController).build();
 	}

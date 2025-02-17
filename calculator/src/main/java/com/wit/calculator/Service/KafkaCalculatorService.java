@@ -50,8 +50,6 @@ public class KafkaCalculatorService {
         }
 
         if (result != null) {
-            logger.info("Calculation Result: " + result);
-            System.out.println("Calculation Result: " + result);
             kafkaService.result(result);
         }
     }

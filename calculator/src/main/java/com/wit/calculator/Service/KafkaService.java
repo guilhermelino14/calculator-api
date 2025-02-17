@@ -19,15 +19,9 @@ public class KafkaService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void calculate(String operation, BigDecimal a, BigDecimal b) {
-        String message = operation + "," + a + "," + b;
-        logger.info("Sending message: " + message);
-        kafkaTemplate.send("calculator-operations", message);
-    }
-
     public void result(BigDecimal result) {
         String message ="resultado: " + result;
-        logger.info("Resultado: " + message);
+        logger.info(message);
         kafkaTemplate.send("calculator-operations", message);
     }
 }
